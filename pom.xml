@@ -5,7 +5,11 @@
 	<!-- TODO: Update your team's project name below and refactor using IntelliJ -->
 	<artifactId>project</artifactId>
 	<version>0.0.1</version>
-    <packaging>pom</packaging>
+	<modules>
+		<module>server</module>
+	</modules>
+	<name>parent-project</name>
+	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>16</java.version>
@@ -32,7 +36,8 @@
 		<single-node-threaded-app.version>${project.version}</single-node-threaded-app.version>
 
 		<log4j.version>2.17.1</log4j.version>
-		<slf4j.version>1.7.30</slf4j.version>
+		<logback.version>1.2.10</logback.version>
+		<slf4j.version>1.7.33</slf4j.version>
 		<junit-version>4.13.1</junit-version>
 		<testng.version>7.3.0</testng.version>
 <!--
@@ -43,7 +48,13 @@
 		<lombok.version>1.18.22</lombok.version>
 	</properties>
 
+<!--
 	<repositories>
+		<repository>
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<url>http://www.mvnrepository.com</url>
+		</repository>
 		<repository>
 			<id>maven-repo</id>
 			<url>https://repo.maven.apache.org/maven2</url>
@@ -53,6 +64,7 @@
 			<url>https://maven.imagej.net/content/repositories/public/</url>
 		</repository>
 	</repositories>
+-->
 
 	<!-- TODO: update the url to your team's one on the cooper-ece-366 GitHub organization. -->
 	<scm>
@@ -213,59 +225,23 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-					<type>jar</type>
-					<exclusions>
-						<exclusion>
-							<groupId>javax.jms</groupId>
-							<artifactId>jms</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>com.sun.jdmk</groupId>
-							<artifactId>jmxtools</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>com.sun.jmx</groupId>
-							<artifactId>jmxri</artifactId>
-						</exclusion>
-					</exclusions>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-core</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
+					<scope>test</scope>
 				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>jcl-over-slf4j</artifactId>
-				</dependency>
-<!--
-				<dependency>
-				    <groupId>org.apache.commons</groupId>
-				    <artifactId>org.apache.commons.logging</artifactId>
-				    <version>${apache.commons.logging.version}</version>
-				    <scope>provided</scope>
-				</dependency>
--->
 				<dependency>
 					<groupId>org.projectlombok</groupId>
 					<artifactId>lombok</artifactId>
 				</dependency>
-
-				<!--
-				<dependency>
-					<groupId>edu.cooper.ece366</groupId>
-					<artifactId>commons</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>edu.cooper.ece366.single</groupId>
-					<artifactId>single_node_threaded_app</artifactId>
-				</dependency>
-                -->
 			</dependencies>
 		</profile>
 
@@ -284,6 +260,7 @@
 				<module>bqProdConsumerService</module>
 				<module>workingWithJson</module>
 -->
+				<module>server</module>
 			</modules>
 		</profile>
 
@@ -345,11 +322,13 @@
 
 	<dependencyManagement>
 		<dependencies>
+<!--
 			<dependency>
 				<groupId>edu.cooper.ece366</groupId>
 				<artifactId>commons</artifactId>
 				<version>${ece366-commons.version}</version>
 			</dependency>
+-->
 <!--
 			<dependency>
 				<groupId>edu.cooper.ece366.single</groupId>
@@ -370,38 +349,18 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>${log4j.version}</version>
-				<type>jar</type>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.jms</groupId>
-						<artifactId>jms</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.sun.jdmk</groupId>
-						<artifactId>jmxtools</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.sun.jmx</groupId>
-						<artifactId>jmxri</artifactId>
-					</exclusion>
-				</exclusions>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
@@ -410,16 +369,18 @@
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-imaging</artifactId>
-				<version>${apache.commons.imaging.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>${gson.version}</version>
-			</dependency>
+			<!--
+                        <dependency>
+                            <groupId>org.apache.commons</groupId>
+                            <artifactId>commons-imaging</artifactId>
+                            <version>${apache.commons.imaging.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.google.code.gson</groupId>
+                            <artifactId>gson</artifactId>
+                            <version>${gson.version}</version>
+                        </dependency>
+            -->
         </dependencies>
 	</dependencyManagement>
 </project>
