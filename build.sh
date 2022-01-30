@@ -1,6 +1,7 @@
 #!/bin/bash
 
-APPS="single-node-threaded-app dist-image"
+# TODO: Add in the application you will write below. That will be a folder under this current working directory
+APPS=""
 
 # First ensure dependencies loaded since .m2 may be empty
 mvn dependency:tree -Ddetail=true

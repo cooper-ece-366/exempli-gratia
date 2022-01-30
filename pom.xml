@@ -2,20 +2,22 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.cooper.ece366</groupId>
-	<artifactId>exempli-gratia</artifactId>
+	<!-- TODO: Update your team's project name below and refactor using IntelliJ -->
+	<artifactId>project</artifactId>
 	<version>0.0.1</version>
     <packaging>pom</packaging>
 
 	<properties>
-		<java.version>11</java.version>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<java.version>16</java.version>
+		<maven.compiler.source>16</maven.compiler.source>
+		<maven.compiler.target>16</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javadoc.opts>-Xdoclint:none</javadoc.opts>
 		<!-- The two below configurations prevent us from having to import the 
 			compiler plugin -->
 
 		<!-- Dependency version declarations -->
+		<!-- TODO: Find packages to use at https://mvnrepository.com/ -->
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -52,10 +54,11 @@
 		</repository>
 	</repositories>
 
+	<!-- TODO: update the url to your team's one on the cooper-ece-366 GitHub organization. -->
 	<scm>
-		<url>git@github.com:robmarano/ece366_at_cooper.git</url>
-		<connection>git@github.com:robmarano/ece366_at_cooper.git</connection>
-		<developerConnection>scm:git:git@github.com:robmarano/ece366_at_cooper.git</developerConnection>
+		<url>git@github.com:cooper-ece-366/exempli-gratia.git</url>
+		<connection>git@github.com:cooper-ece-366/exempli-gratia.git</connection>
+		<developerConnection>scm:git:git@github.com:cooper-ece-366/exempli-gratia.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -178,7 +181,6 @@
 		<profile>
 			<id>classpath-deps</id>
 			<modules>
-				<module>commons</module>
 			</modules>
 			<build>
 				<plugins>
@@ -254,16 +256,16 @@
 					<artifactId>lombok</artifactId>
 				</dependency>
 
+				<!--
 				<dependency>
 					<groupId>edu.cooper.ece366</groupId>
 					<artifactId>commons</artifactId>
 				</dependency>
-<!--
 				<dependency>
 					<groupId>edu.cooper.ece366.single</groupId>
 					<artifactId>single_node_threaded_app</artifactId>
 				</dependency>
--->
+                -->
 			</dependencies>
 		</profile>
 
@@ -275,11 +277,13 @@
 			</activation>
 
 			<modules>
+<!--
 				<module>commons</module>
 				<module>single-node-threaded-app</module>
 				<module>dist-image</module>
 				<module>bqProdConsumerService</module>
 				<module>workingWithJson</module>
+-->
 			</modules>
 		</profile>
 
@@ -288,7 +292,9 @@
 		<profile>
 			<id>commons</id>
 			<modules>
+<!-->
 				<module>commons</module>
+<-->
 			</modules>
 		</profile>
 
@@ -297,10 +303,12 @@
 		<profile>
 			<id>non_commons</id>
 			<modules>
+<!-->
 				<module>single-node-threaded-app</module>
 				<module>dist-image</module>
 				<module>bqProdConsumerService</module>
 				<module>workingWithJson</module>
+<-->
 			</modules>
 		</profile>
 
