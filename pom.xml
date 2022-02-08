@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>edu.cooper.ece366</groupId>
 	<!-- TODO: Update your team's project name below and refactor using IntelliJ -->
-	<artifactId>project</artifactId>
+	<artifactId>project-borsa</artifactId>
+	<groupId>edu.cooper.ece366</groupId>
 	<version>0.0.1</version>
 	<modules>
-		<module>server</module>
+		<module>borsa-service</module>
+		<module>yahoofinance-api</module>
 	</modules>
-	<name>parent-project</name>
+	<name>project-borsa</name>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -40,6 +41,8 @@
 		<slf4j.version>1.7.33</slf4j.version>
 		<junit-version>4.13.1</junit-version>
 		<testng.version>7.3.0</testng.version>
+
+		<yahoo-finance.version>3.16.0-SNAPSHOT</yahoo-finance.version>
 <!--
 		<apache.commons.logging.version>1.0.4.v200706111724</apache.commons.logging.version>
 -->
@@ -260,7 +263,7 @@
 				<module>bqProdConsumerService</module>
 				<module>workingWithJson</module>
 -->
-				<module>server</module>
+				<module>borsa-service</module>
 			</modules>
 		</profile>
 
@@ -381,6 +384,11 @@
                             <version>${gson.version}</version>
                         </dependency>
             -->
+			<dependency>
+				<groupId>edu.cooper.ece366.yahoofinance</groupId>
+				<artifactId>api</artifactId>
+				<version>${yahoo-finance.version}</version>
+			</dependency>
         </dependencies>
 	</dependencyManagement>
 </project>
