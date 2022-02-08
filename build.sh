@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # TODO: Add in the application you will write below. That will be a folder under this current working directory
-APPS=""
+APPS="borsa-service"
 
 # First ensure dependencies loaded since .m2 may be empty
 mvn dependency:tree -Ddetail=true
