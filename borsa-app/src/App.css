@@ -3,7 +3,12 @@
 }
 
 .App-logo {
-  height: 20vmin;
+  height: 10vmin;
+  pointer-events: none;
+}
+
+.Platform-logo {
+  height: 10vmin;
   pointer-events: none;
 }
 
