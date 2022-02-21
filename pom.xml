@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>edu.cooper.ece366</groupId>
 	<!-- TODO: Update your team's project name below and refactor using IntelliJ -->
-	<artifactId>project</artifactId>
+	<artifactId>project-borsa</artifactId>
+	<groupId>edu.cooper.ece366</groupId>
 	<version>0.0.1</version>
 	<modules>
-		<module>server</module>
+		<module>borsa-service</module>
+		<module>yahoofinance-api</module>
 	</modules>
-	<name>parent-project</name>
+	<name>project-borsa</name>
 	<packaging>pom</packaging>
 
 	<properties>
-		<java.version>16</java.version>
-		<maven.compiler.source>16</maven.compiler.source>
-		<maven.compiler.target>16</maven.compiler.target>
+		<java.version>17</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javadoc.opts>-Xdoclint:none</javadoc.opts>
-		<!-- The two below configurations prevent us from having to import the 
-			compiler plugin -->
+		<!-- The two below configurations prevent us from having to import the compiler plugin -->
 
 		<!-- Dependency version declarations -->
 		<!-- TODO: Find packages to use at https://mvnrepository.com/ -->
@@ -40,6 +40,12 @@
 		<slf4j.version>1.7.33</slf4j.version>
 		<junit-version>4.13.1</junit-version>
 		<testng.version>7.3.0</testng.version>
+		<jackson.version>2.13.1</jackson.version>
+
+		<yahoo-finance.version>3.16.0-SNAPSHOT</yahoo-finance.version>
+
+		<spring.boot.version>2.6.3</spring.boot.version>
+		<spring.webmvc.version>5.3.15</spring.webmvc.version>
 <!--
 		<apache.commons.logging.version>1.0.4.v200706111724</apache.commons.logging.version>
 -->
@@ -86,6 +92,104 @@
 			<url>s3://edu.cooper.ece366/snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<url>https://repo.spring.io/snapshot</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<url>https://repo.spring.io/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.webmvc.version}</version>
+			</dependency>
+
+			<!--
+                        <dependency>
+                            <groupId>edu.cooper.ece366</groupId>
+                            <artifactId>commons</artifactId>
+                            <version>${ece366-commons.version}</version>
+                        </dependency>
+            -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>${testng.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<!--
+                        <dependency>
+                            <groupId>org.apache.commons</groupId>
+                            <artifactId>commons-imaging</artifactId>
+                            <version>${apache.commons.imaging.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.google.code.gson</groupId>
+                            <artifactId>gson</artifactId>
+                            <version>${gson.version}</version>
+                        </dependency>
+            -->
+			<dependency>
+				<groupId>edu.cooper.ece366.yahoofinance</groupId>
+				<artifactId>api</artifactId>
+				<version>${yahoo-finance.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
@@ -166,8 +270,23 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
 					<version>${maven-shade-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-maven-plugin</artifactId>
+							<version>${spring.boot.version}</version>
+						</dependency>
+					</dependencies>
 					<configuration>
 						<createDependencyReducedPom>false</createDependencyReducedPom>
+						<filters>
+							<filter>
+								<artifact>*:*</artifact>
+								<excludes>
+									<exclude>**/Log4j2Plugins.dat</exclude>
+								</excludes>
+							</filter>
+						</filters>
 					</configuration>
 					<executions>
 						<execution>
@@ -175,6 +294,29 @@
 							<goals>
 								<goal>shade</goal>
 							</goals>
+							<configuration>
+								<transformers>
+									<transformer
+											implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										<resource>META-INF/spring.handlers</resource>
+									</transformer>
+									<transformer
+											implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+										<resource>META-INF/spring.factories</resource>
+									</transformer>
+									<transformer
+											implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										<resource>META-INF/spring.schemas</resource>
+									</transformer>
+									<transformer
+											implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+								</transformers>
+								<artifactSet>
+									<excludes>
+										<exclude>org.apache.tomcat.embed:*</exclude>
+									</excludes>
+								</artifactSet>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>
@@ -182,6 +324,11 @@
 				  <groupId>org.codehaus.mojo</groupId>
 				  <artifactId>exec-maven-plugin</artifactId>
 				  <version>${exec-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -193,9 +340,24 @@
 		<profile>
 			<id>classpath-deps</id>
 			<modules>
+				<module>yahoofinance-api</module>
+				<module>borsa-service</module>
 			</modules>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<version>${spring.boot.version}</version>
+						<configuration>
+							<excludes>
+								<exclude>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
@@ -214,6 +376,24 @@
 				</plugins>
 			</build>
 			<dependencies>
+				<dependency>
+					<!-- Import dependency management from Spring Boot -->
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-dependencies</artifactId>
+					<version>${spring.boot.version}</version>
+					<type>pom</type>
+					<scope>import</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+					<version>${spring.boot.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-webmvc</artifactId>
+					<version>${spring.webmvc.version}</version>
+				</dependency>
 				<dependency>
 					<groupId>junit</groupId>
 					<artifactId>junit</artifactId>
@@ -242,6 +422,10 @@
 					<groupId>org.projectlombok</groupId>
 					<artifactId>lombok</artifactId>
 				</dependency>
+				<dependency>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</dependency>
 			</dependencies>
 		</profile>
 
@@ -251,55 +435,40 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-
 			<modules>
-<!--
-				<module>commons</module>
-				<module>single-node-threaded-app</module>
-				<module>dist-image</module>
-				<module>bqProdConsumerService</module>
-				<module>workingWithJson</module>
--->
-				<module>server</module>
-			</modules>
-		</profile>
-
-		<!-- Build only the commons jar (use in combo with uber profile to build 
-			uber commons) -->
-		<profile>
-			<id>commons</id>
-			<modules>
-<!-->
-				<module>commons</module>
-<-->
-			</modules>
-		</profile>
-
-		<!-- Build only the non-commons jars (can be used in combo with 'uber' 
-			profile to make them uber builds) -->
-		<profile>
-			<id>non_commons</id>
-			<modules>
-<!-->
-				<module>single-node-threaded-app</module>
-				<module>dist-image</module>
-				<module>bqProdConsumerService</module>
-				<module>workingWithJson</module>
-<-->
+				<module>borsa-service</module>
+				<module>yahoofinance-api</module>
 			</modules>
 		</profile>
 
 		<!-- to build uber jars -->
 		<profile>
 			<id>uber</id>
+			<modules>
+				<module>borsa-service</module>
+				<module>yahoofinance-api</module>
+			</modules>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<version>${spring.boot.version}</version>
+						<configuration>
+							<excludes>
+								<exclude>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
 					<!-- To be removed once commons project is properly implemented -->
 					<!-- see https://maven.apache.org/guides/mini/guide-assemblies.html -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-assembly-plugin</artifactId>
-
 						<configuration>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
@@ -320,67 +489,4 @@
 		</profile>
 	</profiles>
 
-	<dependencyManagement>
-		<dependencies>
-<!--
-			<dependency>
-				<groupId>edu.cooper.ece366</groupId>
-				<artifactId>commons</artifactId>
-				<version>${ece366-commons.version}</version>
-			</dependency>
--->
-<!--
-			<dependency>
-				<groupId>edu.cooper.ece366.single</groupId>
-				<artifactId>single-node-threaded-app</artifactId>
-				<version>${single-node-threaded-app.version}</version>
-			</dependency>
--->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit-version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.testng</groupId>
-				<artifactId>testng</artifactId>
-				<version>${testng.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<!--
-                        <dependency>
-                            <groupId>org.apache.commons</groupId>
-                            <artifactId>commons-imaging</artifactId>
-                            <version>${apache.commons.imaging.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.google.code.gson</groupId>
-                            <artifactId>gson</artifactId>
-                            <version>${gson.version}</version>
-                        </dependency>
-            -->
-        </dependencies>
-	</dependencyManagement>
 </project>
