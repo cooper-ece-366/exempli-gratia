@@ -13,12 +13,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="borsa-service" target="16" />
-      <module name="bqProdConsumerService" target="1.5" />
-      <module name="commons" target="1.5" />
-      <module name="dist-image" target="1.5" />
-      <module name="single-node-threaded-app" target="1.5" />
-      <module name="workingWithJson" target="1.5" />
+      <module name="borsa-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
