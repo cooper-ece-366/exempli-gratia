@@ -2,10 +2,10 @@ package edu.cooper.ece366.yahoofinance.api.quotes.csv;
 
 import edu.cooper.ece366.yahoofinance.api.Stock;
 import edu.cooper.ece366.yahoofinance.api.Utils;
-import edu.cooper.ece366.yahoofinance.api.exchanges.ExchangeTimeZone;
-import edu.cooper.ece366.yahoofinance.api.quotes.stock.StockDividend;
 import edu.cooper.ece366.yahoofinance.api.quotes.stock.StockQuote;
 import edu.cooper.ece366.yahoofinance.api.quotes.stock.StockStats;
+import edu.cooper.ece366.yahoofinance.api.exchanges.ExchangeTimeZone;
+import edu.cooper.ece366.yahoofinance.api.quotes.stock.StockDividend;
 
 /**
  *

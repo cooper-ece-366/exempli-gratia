@@ -1,7 +1,9 @@
+
 package edu.cooper.ece366.yahoofinance.api.quotes.csv;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import edu.cooper.ece366.yahoofinance.api.Utils;
 import edu.cooper.ece366.yahoofinance.api.YahooFinance;
 import edu.cooper.ece366.yahoofinance.api.quotes.fx.FxQuote;

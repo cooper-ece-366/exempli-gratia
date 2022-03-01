@@ -10,7 +10,7 @@ function getRandomColor() {
 }
 
 function App() {
-  const apiUrlPrefix = "http://localhost:8080";
+    const apiUrlPrefix = "http://localhost:8080";
   const tickers = ['AAPL','AMZN','GOOG','NVDA','INTC','FB','ORCL','NFLX'];
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [currentReadableTime, setCurrentReadableTime] = useState('0');
