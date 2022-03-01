@@ -8,8 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="server" />
-        <module name="YahooFinanceAPI" />
+        <module name="borsa-yahoo-finance" />
         <module name="api" />
+        <module name="YahooFinanceAPI" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
