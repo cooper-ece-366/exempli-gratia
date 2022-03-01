@@ -340,8 +340,8 @@
 		<profile>
 			<id>classpath-deps</id>
 			<modules>
-				<module>yahoofinance-api</module>
 				<module>borsa-service</module>
+				<module>yahoofinance-api</module>
 			</modules>
 			<build>
 				<plugins>
