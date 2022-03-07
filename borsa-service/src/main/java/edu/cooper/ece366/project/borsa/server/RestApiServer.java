@@ -1,14 +1,20 @@
 package edu.cooper.ece366.project.borsa.server;
 
+import edu.cooper.ece366.project.borsa.server.config.AppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication
+//@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "edu.cooper.ece366.project.borsa.server"
+})
+@EnableConfigurationProperties(AppProperties.class)
 public class RestApiServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestApiServer.class);
 
