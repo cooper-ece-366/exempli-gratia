@@ -27,7 +27,8 @@ APP_VERSION=${APP_MAVEN_VERSION}-${APP_GIT_VERSION}_${NOW}_${THEUSER}
 echo ${APP_VERSION} > ${APP_VERSION_FILE}
 
 [ -e ${APP_PROP_FILE} ] && rm ${APP_PROP_FILE}
-cat ${APP_TEMPLATE_PROP_FILE} | sed -e "s/NOTFORMALLYBUILT/${APP_VERSION}/g" > ${APP_PROP_FILE}
+cat ${APP_TEMPLATE_PROP_FILE} | sed -e "s/FULLAPPBUILDNUM/${APP_VERSION}/g" \
+  | sed -e "s/MVNVERSION/${APP_MAVEN_VERSION}/g" > ${APP_PROP_FILE}
 
 echo "LOCALLY building runtime to local folder: ./build ..."
 echo "Version = ${APP_VERSION}"
