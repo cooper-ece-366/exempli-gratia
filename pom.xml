@@ -42,6 +42,7 @@
 		<junit-version>4.13.1</junit-version>
 		<testng.version>7.3.0</testng.version>
 		<jackson.version>2.13.2</jackson.version>
+		<mysql.version>8.0.28</mysql.version>
 
 		<yahoo-finance.version>3.16.0-SNAPSHOT</yahoo-finance.version>
 
@@ -61,24 +62,6 @@
 		<lombok.version>1.18.22</lombok.version>
 	</properties>
 
-<!--
-	<repositories>
-		<repository>
-			<id>mvnrepository</id>
-			<name>mvnrepository</name>
-			<url>http://www.mvnrepository.com</url>
-		</repository>
-		<repository>
-			<id>maven-repo</id>
-			<url>https://repo.maven.apache.org/maven2</url>
-		</repository>
-		<repository>
-			<id>scijava-repo</id>
-			<url>https://maven.imagej.net/content/repositories/public/</url>
-		</repository>
-	</repositories>
--->
-
 	<!-- TODO: update the url to your team's one on the cooper-ece-366 GitHub organization. -->
 	<scm>
 		<url>git@github.com:cooper-ece-366/exempli-gratia.git</url>
@@ -86,19 +69,6 @@
 		<developerConnection>scm:git:git@github.com:cooper-ece-366/exempli-gratia.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
-
-	<distributionManagement>
-		<repository>
-			<id>aws-release</id>
-			<name>AWS Release Repository</name>
-			<url>s3://edu.cooper.ece366/release</url>
-		</repository>
-		<snapshotRepository>
-			<id>aws-snapshot</id>
-			<name>AWS Snapshot Repository</name>
-			<url>s3://edu.cooper.ece366/snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<pluginRepositories>
 		<pluginRepository>
@@ -110,7 +80,6 @@
 			<url>https://repo.spring.io/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
-
 
 	<dependencyManagement>
 		<dependencies>
@@ -124,40 +93,25 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-web</artifactId>
-				<version>${spring.boot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.webmvc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-jpa</artifactId>
-				<version>${spring.jpa.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-core</artifactId>
-				<version>${spring.security.core}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security.oauth</groupId>
-				<artifactId>spring-security-oauth2</artifactId>
-				<version>${spring.security.oauth2}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-oauth2-core</artifactId>
-				<version>${spring.security.core}</version>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>2.6.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-oauth2-client</artifactId>
-				<version>${spring.security.core}</version>
+				<version>5.6.2</version>
 			</dependency>
-
+			<dependency>
+				<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>2.5.1.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+				<scope>runtime</scope>
+			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
@@ -168,7 +122,12 @@
 				<groupId>com.nimbusds</groupId>
 				<artifactId>oauth2-oidc-sdk</artifactId>
 				<version>${nimbusds.oauth2-oidc-sdk.version}</version>
-				<!-- <scope>runtime</scope> -->
+				<!-- scope>runtime</scope -->
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<!-- scope>runtime</scope -->
 			</dependency>
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -230,25 +189,6 @@
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			<!--
-                        <dependency>
-                            <groupId>org.apache.commons</groupId>
-                            <artifactId>commons-imaging</artifactId>
-                            <version>${apache.commons.imaging.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.google.code.gson</groupId>
-                            <artifactId>gson</artifactId>
-                            <version>${gson.version}</version>
-                        </dependency>
-            -->
-			<!--
-            <dependency>
-                <groupId>edu.cooper.ece366</groupId>
-                <artifactId>commons</artifactId>
-                <version>${ece366-commons.version}</version>
-            </dependency>
-			-->
 			<dependency>
 				<groupId>edu.cooper.ece366.yahoofinance</groupId>
 				<artifactId>api</artifactId>
@@ -465,11 +405,17 @@
 					<artifactId>spring-webmvc</artifactId>
 					<version>${spring.webmvc.version}</version>
 				</dependency>
+		        <dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-jpa</artifactId>
+				</dependency>
+				<!--
 				<dependency>
 					<groupId>org.springframework.data</groupId>
 					<artifactId>spring-data-jpa</artifactId>
 					<version>${spring.jpa.version}</version>
 				</dependency>
+				-->
 				<dependency>
 					<groupId>org.springframework.security</groupId>
 					<artifactId>spring-security-core</artifactId>
