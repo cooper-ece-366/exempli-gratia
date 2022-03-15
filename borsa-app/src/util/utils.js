@@ -7,6 +7,6 @@ export function getRandomColor() {
 
 export function getRandomTicker() {
     let ticker = TICKERS_LIST[Math.floor(Math.random() * TICKERS_LIST.length)];
-    console.log("Choosing randomly %s", ticker);
+    // console.log("Choosing randomly %s", ticker);
     return(ticker);
 };
