@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import {THE_APP_NAME} from "../constants";
 import './AppHeader.css';
 
 class AppHeader extends Component {
@@ -8,12 +9,15 @@ class AppHeader extends Component {
             <header className="app-header">
                 <div className="container">
                     <div className="app-branding">
-                        <Link to="/" className="app-title">Spring Social</Link>
+                        <Link to="/" className="app-title">{THE_APP_NAME}</Link>
                     </div>
                     <div className="app-options">
                         <nav className="app-nav">
                                 { this.props.authenticated ? (
                                     <ul>
+                                        <li>
+                                            <NavLink to="/invest">Invest</NavLink>
+                                        </li>
                                         <li>
                                             <NavLink to="/profile">Profile</NavLink>
                                         </li>

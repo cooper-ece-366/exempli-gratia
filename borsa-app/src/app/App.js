@@ -8,6 +8,7 @@ import Home from '../home/Home';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
+import Invest from '../user/invest/Invest';
 import OAuth2RedirectHandler from '../user/oauth2/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
@@ -38,7 +39,7 @@ class App extends Component {
       this.setState({
         currentUser: response,
         authenticated: true,
-        loading: false
+        loading: false,
       });
     }).catch(error => {
       this.setState({
@@ -72,7 +73,9 @@ class App extends Component {
         </div>
         <div className="app-body">
           <Switch>
-            <Route exact path="/" component={Home}></Route>           
+            <Route exact path="/" component={Home}></Route>
+            <PrivateRoute path="/invest" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={Invest}></PrivateRoute>
             <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={Profile}></PrivateRoute>
             <Route path="/login"

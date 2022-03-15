@@ -49,3 +49,32 @@ export function signup(signupRequest) {
         body: JSON.stringify(signupRequest)
     });
 }
+
+export function getTime() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/api/time",
+        method: 'GET'
+    });
+}
+
+export function getStockPrice(stock) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    // else {
+    //     console.log(stock);
+    // }
+    // let xxx = request({
+    //     url: API_BASE_URL + "/api/stock/" + stock,
+    //     method: 'GET'
+    // });
+    // console.log(xxx);
+    return request({
+        url: API_BASE_URL + "/api/stock/" + stock,
+        method: 'GET'
+    });
+}

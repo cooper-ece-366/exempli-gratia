@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import '../constants/index.js';
 import './Home.css';
+import {THE_APP_NAME} from "../constants";
 
 class Home extends Component {
     render() {
@@ -21,7 +23,7 @@ class Home extends Component {
                             <div className="graf-circle"></div>
                         </div>
                     </div>
-                    <h1 className="home-title">Spring Boot React OAuth2 Social Login Demo</h1>
+                    <h1 className="home-title">{THE_APP_NAME} Demo</h1>
                 </div>
             </div>
         )

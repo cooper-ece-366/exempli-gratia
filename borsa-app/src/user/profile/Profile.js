@@ -4,8 +4,9 @@ import './Profile.css';
 class Profile extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        console.log("Props = %o",this);
     }
+
     render() {
         return (
             <div className="profile-container">
@@ -33,4 +34,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile
+export default Profile;
