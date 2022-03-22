@@ -95,6 +95,7 @@ class LoginForm extends Component {
         login(loginRequest)
         .then(response => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+            console.log("ACCESS_TOKEN = " + response.accessToken);
             Alert.success("You're successfully logged in!");
             this.props.history.push("/");
         }).catch(error => {

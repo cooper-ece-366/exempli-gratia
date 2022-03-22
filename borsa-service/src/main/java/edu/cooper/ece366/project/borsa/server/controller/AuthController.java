@@ -1,5 +1,6 @@
 package edu.cooper.ece366.project.borsa.server.controller;
 
+import edu.cooper.ece366.project.borsa.server.RestApiServer;
 import edu.cooper.ece366.project.borsa.server.exception.BadRequestException;
 import edu.cooper.ece366.project.borsa.server.model.AuthProvider;
 import edu.cooper.ece366.project.borsa.server.model.User;
@@ -9,6 +10,8 @@ import edu.cooper.ece366.project.borsa.server.payload.LoginRequest;
 import edu.cooper.ece366.project.borsa.server.payload.SignUpRequest;
 import edu.cooper.ece366.project.borsa.server.repository.UserRepository;
 import edu.cooper.ece366.project.borsa.server.security.TokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +28,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -53,6 +57,13 @@ public class AuthController {
         String token = tokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutAuthenticatedUser(@Valid @RequestBody String logoutRequest) {
+        LOGGER.info(logoutRequest);
+        return ResponseEntity.ok(new AuthResponse(logoutRequest));
+    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
