@@ -1,5 +1,5 @@
 # for borsa-service
-./borsa-service/src/main/resources/application.properties
+borsa-service/src/main/resources/application.properties
 
 ssh
 opt

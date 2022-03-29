@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { getRandomColor, getRandomTicker } from '../../util/utils';
-import { getTime, getStockPrice } from "../../util/APIUtils";
+import {getRandomColor} from '../../util/utils';
+import { getTime, getStockPrice, getUserPortfolioTickers } from "../../util/APIUtils";
 import LoadingIndicator from '../../common/LoadingIndicator';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -12,17 +12,43 @@ class Invest extends Component {
         super(props);
         this.state = {
             now: null,
-            readableNow: null,
-            ticker: getRandomTicker(),
-            price: null
+            readableNow: null
         };
+
+        this.updateStocksState = this.updateStocksState.bind(this);
+
         this.refreshTime = this.refreshTime.bind(this);
         this.refreshTicker = this.refreshTicker.bind(this);
-        this.loadCurrentTicker = this.refreshStockPrice.bind(this);
+        this.refreshStockPrice = this.refreshStockPrice.bind(this);
         this.buttonClickedRefreshTime = this.buttonClickedRefreshTime.bind(this);
         this.buttonClickedRefreshTicker = this.buttonClickedRefreshTicker.bind(this);
         this.buttonClickedRefreshTickerPrice = this.buttonClickedRefreshTickerPrice.bind(this);
         this.buttonClickedReRender = this.buttonClickedReRender.bind(this);
+    }
+
+    updateStocksState() {
+        let tickerList = null;
+        var stockData = [];
+        getUserPortfolioTickers().then(response => {
+            tickerList = response.tickers;
+            tickerList.forEach(function (ticker, index) {
+                getStockPrice(ticker).then(response => {
+                    console.log(response);
+                    let entry = {"ticker": ticker, "price":parseFloat(response.price).toFixed(2)};
+                    stockData.push(entry);
+                    // stockData[ticker] = parseFloat(response.price).toFixed(2);
+                    Alert.success(ticker + " stock price refreshed!");
+                }).catch(error => {
+                    Alert.error(ticker + " stock price NOT retrieved!");
+                });
+            });
+        }).catch(error => {
+            Alert.error(this.state.stocks + " stock list NOT retrieved!");
+        });
+        this.setState({
+            stocks: stockData
+        }, () => {console.log(this.state);});
+
     }
 
     refreshTime() {
@@ -45,18 +71,30 @@ class Invest extends Component {
     }
 
     refreshTicker() {
-        let tt = getRandomTicker();
-        console.log("Ticker = %s", tt);
-        this.setState({
-            ticker: tt
-        }, () => {console.log(this.state);});
+        // let tt = getRandomTicker();
+        getUserPortfolioTickers().then(response => {
+            let tickerList = response.tickers;
+            console.log("Tickerlist = " + tickerList);
+            let ticker = tickerList[Math.floor(Math.random() * tickerList.length)]
+            console.log("Ticker = %s", ticker);
+            this.setState({
+                ticker: ticker
+            }, () => {console.log(this.state);});
+        }).catch(error => {
+            this.setState({
+                loading: false
+            }, () => {console.log(this.state);});
+            Alert.error(this.state.ticker + " stock price NOT retrieved!");
+        });
     }
 
     refreshStockPrice() {
         // this.refreshTicker();
         getStockPrice(this.state.ticker).then(response => {
+            console.log(response);
             this.setState({
-                price: response.quote.price
+                // price: response.quote.price
+                price: parseFloat(response.price).toFixed(2)
             }, () => {console.log(this.state);});
             Alert.success(this.state.ticker + " stock price refreshed!");
         }).catch(error => {
@@ -69,43 +107,44 @@ class Invest extends Component {
 
     componentDidMount() {
         this.refreshTime();
-        this.refreshStockPrice();
-        console.log("componentDidMount: state = %o", this.state);
+        this.updateStocksState();
+        // this.refreshStockPrice();
+        // console.log("componentDidMount: state = %o", this.state);
     }
 
     componentWillUnmount() {
-        console.log("componentWillUnmount: state = %o", this.state);
+        // console.log("componentWillUnmount: state = %o", this.state);
     }
 
     componentDidUpdate() {
-        console.log("componentDidUpdate: state = %o", this.state);
+        // console.log("componentDidUpdate: state = %o", this.state);
     }
 
     componentWillUpdate() {
-        console.log("componentWillUpdate: state = %o", this.state);
+        // console.log("componentWillUpdate: state = %o", this.state);
     }
 
     shouldComponentUpdate() {
-        console.log("shouldComponentUpdate: state = %o", this.state);
+        // console.log("shouldComponentUpdate: state = %o", this.state);
         return(true);
     }
 
     buttonClickedRefreshTime() {
-        console.log('Time Button was clicked!');
+        // console.log('Time Button was clicked!');
         this.refreshTime();
     }
 
     buttonClickedRefreshTicker() {
-        console.log('Stock Button was clicked!');
+        // console.log('Stock Button was clicked!');
         this.refreshTicker();
-        console.log(this.state.ticker);
-        //this.refreshStockPrice();
+        // console.log(this.state.ticker);
+        // this.refreshStockPrice();
         //this.refreshVersionString();
         //this.refreshQuote();
     }
 
     buttonClickedRefreshTickerPrice() {
-        console.log('Price Button was clicked!');
+        // console.log('Price Button was clicked!');
         this.refreshStockPrice();
     }
 
@@ -114,6 +153,7 @@ class Invest extends Component {
     }
 
     render() {
+        // this.updateStocksState();
         if(this.state.loading) {
             return <LoadingIndicator />
         }
@@ -126,14 +166,26 @@ class Invest extends Component {
                         <div style={{background: `${getRandomColor()}`}}>
                             {this.state.readableNow}
                         </div>
-                        <p>The last closing price for {this.state.ticker} is</p>
-                        <div style={{background: `${getRandomColor()}`}}>
-                            $ {this.state.price}
+                        <div>
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th style={{height: '50px'}}>Stock</th>
+                                    <th style={{height: '50px'}}>Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {this.state.stocks.map(obj => {
+                                    return (
+                                        <tr>
+                                            <td style={{backgroundColor: 'white'}}>{obj.ticker}</td>
+                                            <td style={{backgroundColor: 'white'}}>{obj.price}</td>
+                                        </tr>
+                                    );
+                                })}
+                                </tbody>
+                            </table>
                         </div>
-                        <button className="button" onClick={this.buttonClickedReRender}>Click to Re-Render</button>
-                        <button className="button" onClick={this.buttonClickedRefreshTime}>Click to Refresh Time</button>
-                        <button className="button" onClick={this.buttonClickedRefreshTicker}>Click to Refresh Ticker</button>
-                        <button className="button" onClick={this.buttonClickedRefreshTickerPrice}>Click to Refresh Stock Price</button>
                     </div>
                 </div>    
             </div>
