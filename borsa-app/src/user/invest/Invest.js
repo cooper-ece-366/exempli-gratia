@@ -10,44 +10,77 @@ import './Invest.css';
 class Invest extends Component {
     constructor(props) {
         super(props);
+        // this.updateStocksState();
         this.state = {
-            now: null,
-            readableNow: null
+            now: 0,
+            readableNow: "",
+            tickers: [],
+            stocks: []
         };
 
-        this.updateStocksState = this.updateStocksState.bind(this);
-
-        this.refreshTime = this.refreshTime.bind(this);
-        this.refreshTicker = this.refreshTicker.bind(this);
-        this.refreshStockPrice = this.refreshStockPrice.bind(this);
         this.buttonClickedRefreshTime = this.buttonClickedRefreshTime.bind(this);
         this.buttonClickedRefreshTicker = this.buttonClickedRefreshTicker.bind(this);
         this.buttonClickedRefreshTickerPrice = this.buttonClickedRefreshTickerPrice.bind(this);
         this.buttonClickedReRender = this.buttonClickedReRender.bind(this);
+
+        this.updateStocksState = this.updateStocksState.bind(this);
+        this.refreshTickerList = this.refreshTickerList.bind(this);
+        this.refreshTime = this.refreshTime.bind(this);
+        this.refreshTicker = this.refreshTicker.bind(this);
+        this.refreshStockPrice = this.refreshStockPrice.bind(this);
     }
 
-    updateStocksState() {
-        let tickerList = null;
-        var stockData = [];
+    refreshTickerList() {
+        console.log(">>>>>> refreshTickerList() called")
         getUserPortfolioTickers().then(response => {
-            tickerList = response.tickers;
-            tickerList.forEach(function (ticker, index) {
-                getStockPrice(ticker).then(response => {
-                    console.log(response);
-                    let entry = {"ticker": ticker, "price":parseFloat(response.price).toFixed(2)};
-                    stockData.push(entry);
-                    // stockData[ticker] = parseFloat(response.price).toFixed(2);
-                    Alert.success(ticker + " stock price refreshed!");
-                }).catch(error => {
-                    Alert.error(ticker + " stock price NOT retrieved!");
+            response.forEach((item) => {
+                this.setState({
+                    tickers: [...this.state.tickers, item]
                 });
             });
         }).catch(error => {
-            Alert.error(this.state.stocks + " stock list NOT retrieved!");
+            Alert.error(this.state.tickers + " stock list NOT retrieved!");
         });
-        this.setState({
-            stocks: stockData
-        }, () => {console.log(this.state);});
+    }
+
+    updateStocksState() {
+        console.log(">>>>>> updateStocksState() called")
+        this.state.tickers.forEach((stateItem) => {
+            console.log(stateItem);
+        });
+
+
+
+        // let tickerList = null;
+        // var stockData = [];
+        // getUserPortfolioTickers().then(response => {
+        //     tickerList = response.tickers;
+        //     this.setState({
+        //         tickers: tickerList
+        //     });
+        // }).catch(error => {
+        //     Alert.error(this.state.stocks + " stock list NOT retrieved!");
+        // });
+        // this.setState({
+        //     stocks: stockData
+        // }, () => {console.log(this.state);});
+        //     tickerList.forEach(function (ticker, index) {
+        //         getStockPrice(ticker).then(response => {
+        //             console.log("_____ " + response);
+        //             let entry = {"ticker": ticker, "price":parseFloat(response.price).toFixed(2)};
+        //             stockData.push(entry);
+        //             // stockData[ticker] = parseFloat(response.price).toFixed(2);
+        //             Alert.success(ticker + " stock price refreshed!");
+        //         }).catch(error => {
+        //             Alert.error(ticker + " stock price NOT retrieved!");
+        //         });
+        //     });
+        // }).catch(error => {
+        //     Alert.error(this.state.stocks + " stock list NOT retrieved!");
+        // });
+        // this.setState({
+        //     stocks: stockData
+        // }, () => {console.log(this.state);});
 
     }
 
@@ -106,28 +139,36 @@ class Invest extends Component {
     }
 
     componentDidMount() {
+        console.log("*** componentDidMount: state = %o", this.state);
         this.refreshTime();
+        this.refreshTickerList();
         this.updateStocksState();
-        // this.refreshStockPrice();
-        // console.log("componentDidMount: state = %o", this.state);
     }
 
-    componentWillUnmount() {
-        // console.log("componentWillUnmount: state = %o", this.state);
-    }
-
-    componentDidUpdate() {
-        // console.log("componentDidUpdate: state = %o", this.state);
-    }
-
-    componentWillUpdate() {
-        // console.log("componentWillUpdate: state = %o", this.state);
-    }
-
-    shouldComponentUpdate() {
-        // console.log("shouldComponentUpdate: state = %o", this.state);
-        return(true);
-    }
+    // componentWillUnmount() {
+    //     // this.refreshTime();
+    //     // this.updateStocksState();
+    //     console.log("*** componentWillUnmount: state = %o", this.state);
+    // }
+    //
+    // componentDidUpdate() {
+    //     // this.refreshTime();
+    //     // this.updateStocksState();
+    //     console.log("*** componentDidUpdate: state = %o", this.state);
+    // }
+    //
+    // componentWillUpdate() {
+    //     // this.refreshTime();
+    //     // this.updateStocksState();
+    //     console.log("*** componentWillUpdate: state = %o", this.state);
+    // }
+    //
+    // shouldComponentUpdate() {
+    //     // this.refreshTime();
+    //     // this.updateStocksState();
+    //     console.log("*** shouldComponentUpdate: state = %o", this.state);
+    //     return(true);
+    // }
 
     buttonClickedRefreshTime() {
         // console.log('Time Button was clicked!');
@@ -179,7 +220,7 @@ class Invest extends Component {
                                     return (
                                         <tr>
                                             <td style={{backgroundColor: 'white'}}>{obj.ticker}</td>
-                                            <td style={{backgroundColor: 'white'}}>{obj.price}</td>
+                                            <td style={{backgroundColor: 'white'}}>x</td>
                                         </tr>
                                     );
                                 })}

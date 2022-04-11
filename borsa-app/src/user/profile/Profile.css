@@ -20,6 +20,30 @@
     font-weight: 400;
 }
 
+.profile-portfolio {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.profile-portfolio .button {
+    display:inline-block;
+    padding:0.35em 1.2em;
+    border:0.1em solid #FFFFFF;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.2s;
+}
+.profile-portfolio .button:hover{
+    color:#000000;
+    background-color:#FFFFFF;
+}
+
 .text-avatar {
     width: 200px;
     height: 200px;

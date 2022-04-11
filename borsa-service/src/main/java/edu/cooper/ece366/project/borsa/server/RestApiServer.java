@@ -1,14 +1,16 @@
 package edu.cooper.ece366.project.borsa.server;
 
 import edu.cooper.ece366.project.borsa.server.config.AppProperties;
+import edu.cooper.ece366.project.borsa.server.model.Asset;
+import edu.cooper.ece366.project.borsa.server.model.AuthProvider;
+import edu.cooper.ece366.project.borsa.server.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //@SpringBootApplication
 @SpringBootApplication(scanBasePackages = {
@@ -23,4 +25,5 @@ public class RestApiServer {
         SpringApplication.run(RestApiServer.class, args);
         LOGGER.info("Running RestApiServer.");
     }
+
 }

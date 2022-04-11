@@ -74,7 +74,7 @@ export function getUserPortfolioTickers() {
         return Promise.reject("No access token set.");
     }
     return request({
-        url: API_BASE_URL + "/portfolio/tickers",
+        url: API_BASE_URL + "/portfolios/portfolio/assets",
         method: 'GET'
     });
 }

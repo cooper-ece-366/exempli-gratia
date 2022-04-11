@@ -3,11 +3,14 @@ package edu.cooper.ece366.project.borsa.server.controller;
 import edu.cooper.ece366.project.borsa.server.RestApiServer;
 import edu.cooper.ece366.project.borsa.server.exception.BadRequestException;
 import edu.cooper.ece366.project.borsa.server.model.AuthProvider;
+import edu.cooper.ece366.project.borsa.server.model.Portfolio;
 import edu.cooper.ece366.project.borsa.server.model.User;
 import edu.cooper.ece366.project.borsa.server.payload.ApiResponse;
 import edu.cooper.ece366.project.borsa.server.payload.AuthResponse;
 import edu.cooper.ece366.project.borsa.server.payload.LoginRequest;
 import edu.cooper.ece366.project.borsa.server.payload.SignUpRequest;
+import edu.cooper.ece366.project.borsa.server.repository.AssetRepository;
+import edu.cooper.ece366.project.borsa.server.repository.PortfolioRepository;
 import edu.cooper.ece366.project.borsa.server.repository.UserRepository;
 import edu.cooper.ece366.project.borsa.server.security.TokenProvider;
 import org.slf4j.Logger;
@@ -35,6 +38,12 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PortfolioRepository portfolioRepository;
+
+    @Autowired
+    private AssetRepository assetRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -81,6 +90,10 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User result = userRepository.save(user);
+
+//        Portfolio portfolio = new Portfolio();
+//        user.setPortfolio(portfolio);
+//        Portfolio presult = portfolioRepository.save(portfolio);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")

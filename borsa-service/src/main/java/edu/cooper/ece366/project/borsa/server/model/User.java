@@ -1,25 +1,32 @@
 package edu.cooper.ece366.project.borsa.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.cooper.ece366.project.borsa.server.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
 public class User {
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Email
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     private String imageUrl;
@@ -35,6 +42,21 @@ public class User {
     private AuthProvider provider;
 
     private String providerId;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "portfolioId", nullable = true)
+    private Portfolio portfolio;
+
+    public Portfolio getPortfolio() {
+//        if (this.portfolio == null) {
+//            this.portfolio = new Portfolio();
+//        }
+        return this.portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
 
     public Long getId() {
         return id;
