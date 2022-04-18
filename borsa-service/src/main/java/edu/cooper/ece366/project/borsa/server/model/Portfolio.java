@@ -29,7 +29,7 @@ public class Portfolio {
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "userId", nullable = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
 

@@ -12,9 +12,9 @@ import java.util.Optional;
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
     Optional<Portfolio> findByUser(User user);
-    Optional<Portfolio> findByUserId(Long portfolioId);
+    Optional<Portfolio> findByUserId(Long userId);
     Optional<Portfolio> findFirstBy();
 
     @Transactional
-    void deleteByUserId(long userId);
+    void deleteByUserId(Long userId);
 }

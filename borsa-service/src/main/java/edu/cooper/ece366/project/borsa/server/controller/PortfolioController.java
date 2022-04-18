@@ -34,6 +34,7 @@ public class PortfolioController {
     private AssetRepository assetRepository;
 
     @GetMapping("/portfolio/{id}") // TODO wire up to database calls via User -> Portfolio -> Asset
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Portfolio> getPortfolioByUserId(@PathVariable(value = "id") Long id)
             throws JsonProcessingException {
         Portfolio portfolio = portfolioRepository.findByUserId(id)

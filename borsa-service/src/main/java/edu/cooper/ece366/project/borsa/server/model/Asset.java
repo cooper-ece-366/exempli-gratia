@@ -26,7 +26,7 @@ public class Asset implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "portfolioId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Portfolio portfolio;
 
@@ -35,6 +35,10 @@ public class Asset implements Serializable {
     public Asset(String ticker) {
         this.ticker = ticker;
     }
+
+    public Long getId() { return this.id; }
+
+    public void setId(Long id) { this.id = id; }
 
     public Portfolio getPortfolio() { return this.portfolio; }
 
