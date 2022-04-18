@@ -99,4 +99,9 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     public String getName() {
         return String.valueOf(id);
     }
+
+    @Override
+    public String toString() {
+        return String.format("id = %s, email = %s, isEnabled = %b",this.id, this.email, this.isEnabled());
+    }
 }

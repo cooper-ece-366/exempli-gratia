@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+//import java.text.DecimalFormat;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -46,12 +47,16 @@ public class ControllerApi {
         try {
             Stock stock = YahooFinance.get(ticker);
             BigDecimal price = stock.getQuote().getPrice();
-            BigDecimal change = stock.getQuote().getChangeInPercent();
-            BigDecimal peg = stock.getStats().getPeg();
-            BigDecimal dividend = stock.getDividend().getAnnualYieldPercent();
-            LOGGER.debug(stock.toString());
-            String theStockJSON = objectMapper.writeValueAsString(stock);
-            LOGGER.debug(theStockJSON);
+//            LOGGER.debug(String.format("%s = %f",ticker,price));
+//            BigDecimal change = stock.getQuote().getChangeInPercent();
+//            BigDecimal peg = stock.getStats().getPeg();
+//            BigDecimal dividend = stock.getDividend().getAnnualYieldPercent();
+//            LOGGER.debug(stock.toString());
+//            String theStockJSON = objectMapper.writeValueAsString(stock);
+//            DecimalFormat df = new DecimalFormat();
+//            df.setMaximumFractionDigits(2);
+            String theStockJSON = String.format("{\"ticker\":\"%s\", \"price\":%.2f }",ticker,price);
+            LOGGER.info(theStockJSON);
             return(theStockJSON);
         }
         catch (IOException ex) {
