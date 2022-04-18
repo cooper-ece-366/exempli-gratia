@@ -65,7 +65,7 @@
 		<sonar.projectKey>cooper-ece-366_exempli-gratia</sonar.projectKey>
 		<sonar.organization>cooper-ece-366</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.login>002c67eaf2e37518069b029b54a2990b72478a66</sonar.login>
+		<!-- <sonar.login></sonar.login> -->
 		<code.coverage.exclusions>
 			**/edu/cooper/ece366/project/borsa/server/util/foo/**
 		</code.coverage.exclusions>
