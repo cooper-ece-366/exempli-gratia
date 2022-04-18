@@ -354,7 +354,6 @@
 		</pluginManagement>
 	</build>
 	<profiles>
-
 		<!-- PROFILE: integration-test -->
 		<profile>
 			<id>integration-test</id>
@@ -432,7 +431,9 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>	
+		</profile>
+
+		<!-- PROFILE: classpath-deps -->
 		<!-- This profile can be run as: mvn clean package -N -P classpath-deps -->
 		<!-- Used to pull all classpath libraries into this parent /target/classpathDependencies 
 			folder -->
@@ -593,6 +594,7 @@
 			</dependencies>
 		</profile>
 
+		<!-- PROFILE: default -->
 		<!-- Default build profile (builds all in project) -->
 		<profile>
 			<id>default</id>
@@ -605,6 +607,7 @@
 			</modules>
 		</profile>
 
+		<!-- PROFILE: uber -->
 		<!-- to build uber jars -->
 		<profile>
 			<id>uber</id>
