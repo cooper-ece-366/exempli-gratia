@@ -1,3 +1,4 @@
 # Borsa Service
 
-On branch ROB-US-2
+On main branch
+(via demo of CICD through GitHub Actions)
