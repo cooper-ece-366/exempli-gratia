@@ -8,18 +8,12 @@ app.version
 log/
 target/
 
-ssh
-opt
-app.version
-.DS_Store
-log/
-target/
-
 # Compiled class file
 *.class
 
 # Log file
 *.log
+*.pid
 
 # BlueJ files
 *.ctxt

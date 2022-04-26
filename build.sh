@@ -1,6 +1,12 @@
 #!/bin/bash
 
-# TODO: Add in the application you will write below. That will be a folder under this current working directory
+# Build Borsa React App Project
+cd ./borsa-app/
+npm run build
+cd ..
+
+# Build Borsa Service Project
+
 APPS="borsa-service"
 
 # First ensure dependencies loaded since .m2 may be empty

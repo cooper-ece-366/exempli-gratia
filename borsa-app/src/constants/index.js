@@ -1,7 +1,13 @@
 export const THE_APP_NAME = "Project Borsa";
-export const API_BASE_URL = 'http://localhost:8080';
+export const API_BASE_URL = 'http://localhost:8080'; // 'https://my.app.com'
 export const ACCESS_TOKEN = 'accessToken';
 
+// Calls when in production
+// "http://be.myapp.com/oauth2/authorize/google?redirect_uri=http://we.myapp.com/oauth2/redirect"
+// web server delivering the React app is we.myapp.com
+// backend server delivering the API calls is be.myapp.com
+
+// '${API_BASE_URL}//oauth2/redirect'
 export const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect'
 
 export const GOOGLE_AUTH_URL = API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI;
